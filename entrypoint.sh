@@ -62,9 +62,17 @@ if [ ! -z "$EDITOR_LOCALHOST_ALIASES" ]; then
     done
 fi
 
+EDITOR_LINE_ENDINGS="${EDITOR_LINE_ENDINGS:-LF}"
+if [ "$EDITOR_LINE_ENDINGS" != "CRLF" ]; then
+    editor_exec git config --global core.autocrlf false
+    editor_exec mkdir -p /home/editor/.local/share/code-server/User
+    editor_exec echo '{"files.eol": "\n"}' > /home/editor/.local/share/code-server/User/settings.json
+fi
+
 EDITOR_PORT="${EDITOR_PORT:-8443}"
 if [ ! -z "$EDITOR_PASSWORD" ]; then
-    editor_exec dumb-init code-server --port "$EDITOR_PORT" --allow-http --password "$EDITOR_PASSWORD"
+    export PASSWORD="$EDITOR_PASSWORD"
+    editor_exec dumb-init code-server --port "$EDITOR_PORT" --allow-http
 else
     editor_exec dumb-init code-server --port "$EDITOR_PORT" --allow-http --no-auth
 fi

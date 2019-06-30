@@ -13,6 +13,8 @@ Code Container is based on the [Code Server](https://github.com/cdr/code-server)
 * automatic installation of editor extensions
 * additional tools like `make`, `strace`, `envsubst` or `tldr`
 * Docker client and docker-compose with bash completion
+* Kubernetes client
+* possibility to run in `pid` and `net` host modes, useful when doing Docker workshops
 * detection of Docker Desktop and setting `localhost` accordingly
 
 ## Configuration
@@ -25,11 +27,12 @@ Set an environment variable to configure the editor entrypoint:
 * `EDITOR_CLONE` - optional, repository URL to clone in the editor home directory
 * `EDITOR_LOCALHOST_ALIASES` - optional, semicolon-delimited list of host names to map to localhost; if Docker Desktop is detected, `host.docker.internal` becomes an alias for `localhost` inside the editor container
 * `EDITOR_BANNER` - optional, banner to display in a new terminal window
+* `EDITOR_LINE_ENDINGS` - optional, either `LF` (default) or `CRLF`
 * `EDITOR_PORT` - optional, port number to use, useful when using host network mode to run the editor
 
 ## Running
 
-Docker container requires mounting `/var/run/docker.sock` from the host system (Docker-in-Docker). Set up a volume on target `/files` directory to preserve your work, files created in the editor will respect the user and group ids used to run the editor.
+Docker container requires mounting `/var/run/docker.sock` from the host system. Set up a volume on target `/files` directory to preserve your work, files created in the editor will respect the user and group ids used to run the editor.
 
 Basic example:
 

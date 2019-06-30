@@ -9,7 +9,6 @@ RUN curl -o /usr/local/bin/su-exec.c https://raw.githubusercontent.com/ncopa/su-
     chmod 0755 /usr/local/bin/su-exec
 
 FROM codercom/code-server
-
 USER root
 COPY --from=su-exec /usr/local/bin/su-exec /su-exec
 
@@ -36,6 +35,9 @@ RUN apt-get update && \
         iproute2 bind9-host iputils-ping socat \
         tldr && \
     rm -rf /var/lib/apt/lists/*
+# Kubernetes
+RUN curl -sSfL https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl -o /usr/bin/kubectl && \
+    chmod +x /usr/bin/kubectl
 
 ENTRYPOINT ["bash", "/entrypoint.sh"]
 CMD ["--allow-http", "--no-auth"]
