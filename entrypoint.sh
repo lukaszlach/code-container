@@ -3,9 +3,15 @@ editor_exec() {
     /su-exec "$EDITOR_USER_NAME" "$@"
 }
 set -e
-if [ ! -e /var/run/docker.sock ]; then
-    echo "Error: /var/run/docker.sock not mounted"
-    exit 1
+if [ -z "${DOCKER_HOST}" ]; then
+    if [ ! -e /var/run/docker.sock ]; then
+        echo "Error: /var/run/docker.sock not mounted"
+        exit 1
+    fi
+    # Expose Docker unix socket as a TCP server
+    # https://github.com/cdr/code-server/issues/436
+    socat TCP-LISTEN:2376,reuseaddr,fork UNIX-CONNECT:/var/run/docker.sock &>/dev/null &
+    export DOCKER_HOST=tcp://127.0.0.1:2376
 fi
 EDITOR_USER_NAME=editor
 EDITOR_GROUP_NAME=editor
@@ -25,11 +31,6 @@ cd "/home/$EDITOR_USER_NAME/project"
 if [ ! -z "$EDITOR_CLONE" ]; then
     editor_exec git clone "$EDITOR_CLONE" || true
 fi
-
-# Expose Docker unix socket as a TCP server
-# https://github.com/cdr/code-server/issues/436
-socat TCP-LISTEN:2376,reuseaddr,fork UNIX-CONNECT:/var/run/docker.sock &>/dev/null &
-export DOCKER_HOST=tcp://127.0.0.1:2376
 
 # Profile
 touch /tmp/.versions
