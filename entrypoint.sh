@@ -18,8 +18,12 @@ groupadd -g "$EDITOR_GID" "$EDITOR_GROUP_NAME" || \
     true
 useradd -m -u "$EDITOR_UID" -g "$EDITOR_GID" -G 0 -s /bin/bash "$EDITOR_USER_NAME"
 
-editor_exec mkdir -p "/files/project"
-editor_exec ln -sf "/files/project" "/home/$EDITOR_USER_NAME/project"
+if mountpoint /files >/dev/null 2>&1; then
+    editor_exec mkdir -p "/files/project"
+    editor_exec ln -sf "/files/project" "/home/$EDITOR_USER_NAME/project"
+else
+    editor_exec mkdir -p "/home/$EDITOR_USER_NAME/project"
+fi
 editor_exec cp -f /completion.sh "/home/$EDITOR_USER_NAME/.bash_completion"
 cd "/home/$EDITOR_USER_NAME/project"
 if [ ! -z "$EDITOR_CLONE" ]; then
