@@ -2,7 +2,6 @@
 editor_exec() {
     /su-exec "$EDITOR_USER_NAME" "$@"
 }
-set -e
 if [ ! -e /var/run/docker.sock ]; then
     echo "Error: /var/run/docker.sock not mounted"
     exit 1
@@ -14,10 +13,10 @@ EDITOR_GID="${EDITOR_GID:-10001}"
 EDITOR_USER="${EDITOR_UID}:${EDITOR_GID}"
 
 groupadd -g "$EDITOR_GID" "$EDITOR_GROUP_NAME" || \
-    groupmod -n "$EDITOR_GROUP_NAME" $(getent group "$EDITOR_GID" | cut -d: -f1) || \
-    true
+    groupmod -n "$EDITOR_GROUP_NAME" $(getent group "$EDITOR_GID" | cut -d: -f1)
 useradd -m -u "$EDITOR_UID" -g "$EDITOR_GID" -G 0 -s /bin/bash "$EDITOR_USER_NAME"
 
+set -e
 editor_exec mkdir -p "/files/project"
 editor_exec ln -sf "/files/project" "/home/$EDITOR_USER_NAME/project"
 editor_exec cp -f /completion.sh "/home/$EDITOR_USER_NAME/.bash_completion"
@@ -30,6 +29,7 @@ fi
 # https://github.com/cdr/code-server/issues/436
 socat TCP-LISTEN:2376,reuseaddr,fork UNIX-CONNECT:/var/run/docker.sock &>/dev/null &
 export DOCKER_HOST=tcp://127.0.0.1:2376
+export DOCKER_CLI_EXPERIMENTAL=enabled
 
 # Profile
 touch /tmp/.versions
