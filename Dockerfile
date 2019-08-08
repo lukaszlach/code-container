@@ -13,7 +13,7 @@ USER root
 COPY --from=su-exec /usr/local/bin/su-exec /su-exec
 
 # Docker
-ARG DOCKER_COMPOSE_VERSION=1.24.0
+ARG DOCKER_COMPOSE_VERSION=1.24.1
 RUN apt-get update && \
     apt-get install -y \
         apt-transport-https ca-certificates curl gnupg-agent software-properties-common figlet && \
@@ -28,6 +28,8 @@ RUN apt-get update && \
     chmod +x /usr/local/bin/docker-compose && \
     curl -L "https://raw.githubusercontent.com/docker/compose/${DOCKER_COMPOSE_VERSION}/contrib/completion/bash/docker-compose" -o /etc/bash_completion.d/docker-compose && \
     curl -L "https://raw.githubusercontent.com/nicferrier/docker-bash-completion/master/docker-complete" -o /etc/bash_completion.d/docker && \
+    curl -sf https://raw.githubusercontent.com/lukaszlach/clip/master/docker-clip -o /usr/libexec/docker/cli-plugins/docker-clip && \
+    chmod +x /usr/libexec/docker/cli-plugins/docker-clip && \
     apt-get install -y \
         bash bash-completion \
         curl wget \

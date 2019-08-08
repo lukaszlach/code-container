@@ -13,6 +13,8 @@ Code Container is based on the [Code Server](https://github.com/cdr/code-server)
 * automatic installation of editor extensions
 * additional tools like `make`, `strace`, `envsubst` or `tldr`
 * Docker client and docker-compose with bash completion
+* Docker client experimental features enabled
+* Docker client plugins support with [Docker Client Plugins Manager](https://github.com/lukaszlach/clip) pre-installed
 * Kubernetes client
 * possibility to run in `pid` and `net` host modes, useful when doing Docker workshops
 * detection of Docker Desktop and setting `localhost` accordingly
@@ -71,6 +73,10 @@ docker run -d --pid host --name code-container --hostname code-container \
 ```bash
 docker build -t lukaszlach/code-container .
 ```
+
+## Contributors
+
+[![](https://sourcerer.io/fame/lukaszlach/lukaszlach/code-container/images/0)](https://sourcerer.io/fame/lukaszlach/lukaszlach/code-container/links/0)[![](https://sourcerer.io/fame/lukaszlach/lukaszlach/code-container/images/1)](https://sourcerer.io/fame/lukaszlach/lukaszlach/code-container/links/1)[![](https://sourcerer.io/fame/lukaszlach/lukaszlach/code-container/images/2)](https://sourcerer.io/fame/lukaszlach/lukaszlach/code-container/links/2)[![](https://sourcerer.io/fame/lukaszlach/lukaszlach/code-container/images/3)](https://sourcerer.io/fame/lukaszlach/lukaszlach/code-container/links/3)[![](https://sourcerer.io/fame/lukaszlach/lukaszlach/code-container/images/4)](https://sourcerer.io/fame/lukaszlach/lukaszlach/code-container/links/4)[![](https://sourcerer.io/fame/lukaszlach/lukaszlach/code-container/images/5)](https://sourcerer.io/fame/lukaszlach/lukaszlach/code-container/links/5)[![](https://sourcerer.io/fame/lukaszlach/lukaszlach/code-container/images/6)](https://sourcerer.io/fame/lukaszlach/lukaszlach/code-container/links/6)[![](https://sourcerer.io/fame/lukaszlach/lukaszlach/code-container/images/7)](https://sourcerer.io/fame/lukaszlach/lukaszlach/code-container/links/7)
 
 ## License
 
