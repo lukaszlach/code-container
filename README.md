@@ -68,6 +68,18 @@ docker run -d --pid host --name code-container --hostname code-container \
 
 > Set the `--hostname` so it looks nice in the inline terminal.
 
+Example with Docker-in-Docker:
+
+```bash
+docker run -d --privileged --name dind docker:stable-dind
+DIND_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' dind)
+docker run -d --name code-container --hostname code-container \
+    -e DOCKER_HOST="tcp://${DIND_IP}:2375"
+    -e EDITOR_CLONE="https://github.com/lukaszlach/orca.git" \
+    -e EDITOR_EXTENSIONS="peterjausovec.vscode-docker" \
+    lukaszlach/code-container
+```
+
 ## Building
 
 ```bash
